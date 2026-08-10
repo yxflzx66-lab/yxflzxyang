@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>遊戲福利中心</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --green: #16a34a;
+      --green-light: #22c55e;
+      --text-main: #111827;
+      --text-sub: #4b5563;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-border: rgba(255, 255, 255, 0.76);
+      --shadow: 0 18px 45px rgba(15, 23, 42, 0.14);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Microsoft JhengHei", "PingFang TC", Arial, sans-serif;
+      color: var(--text-main);
+      background:
+        linear-gradient(rgba(246, 248, 252, 0.82), rgba(246, 248, 252, 0.82)),
+        url("images/background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(37, 99, 235, 0.16), transparent 32%),
+        radial-gradient(circle at 85% 20%, rgba(34, 197, 94, 0.14), transparent 30%),
+        radial-gradient(circle at 60% 90%, rgba(59, 130, 246, 0.12), transparent 35%);
+      z-index: -1;
+    }
+
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .page {
+      min-height: 100vh;
+      padding: 14px;
+    }
+
+    .container {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .main-card {
+      overflow: hidden;
+      border-radius: 30px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .banner-link {
+      display: block;
+      text-decoration: none;
+      background: linear-gradient(135deg, #dbeafe, #ecfdf5);
+    }
+
+    .banner {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 120px;
+      object-fit: contain;
+      background: linear-gradient(135deg, #dbeafe, #eff6ff);
+    }
+
+    .hero {
+      position: relative;
+      text-align: center;
+      padding: 0 16px 24px;
+    }
+
+    .avatar {
+      width: 86px;
+      height: 86px;
+      margin: -48px auto 12px;
+      display: block;
+      border-radius: 999px;
+      object-fit: cover;
+      background: linear-gradient(135deg, #2563eb, #22c55e);
+      border: 5px solid #fff;
+      box-shadow: 0 14px 30px rgba(37, 99, 235, 0.24);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 7vw, 46px);
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #0f172a;
+    }
+
+    .subtitle {
+      max-width: 560px;
+      margin: 10px auto 18px;
+      color: var(--text-sub);
+      font-size: 15.5px;
+      line-height: 1.65;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 230px;
+      padding: 15px 34px;
+      border-radius: 999px;
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      box-shadow: 0 14px 30px rgba(34, 197, 94, 0.32);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(34, 197, 94, 0.42);
+    }
+
+    .cta:active {
+      transform: scale(0.97);
+    }
+
+    .info-row {
+      margin-top: 14px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      color: #64748b;
+      font-size: 13px;
+    }
+
+    .info-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(241, 245, 249, 0.92);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .section-title {
+      margin: 24px 4px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: 21px;
+      color: #0f172a;
+    }
+
+    .section-title span {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .masonry {
+      column-count: 2;
+      column-gap: 12px;
+    }
+
+    .game-card {
+      break-inside: avoid;
+      display: block;
+      overflow: hidden;
+      margin: 0 0 12px;
+      border-radius: 22px;
+      color: inherit;
+      text-decoration: none;
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid var(--card-border);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.1);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+
+    .game-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
+    }
+
+    .game-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: linear-gradient(135deg, #dbeafe, #f8fafc);
+    }
+
+    .game-name {
+      padding: 10px 12px 12px;
+      font-size: 15px;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.94);
+      color: #111827;
+    }
+
+    .footer {
+      margin: 22px 0 8px;
+      text-align: center;
+      color: #6b7280;
+      font-size: 13.5px;
+    }
+
+    .footer small {
+      display: block;
+      margin-top: 7px;
+      color: #9ca3af;
+    }
+
+    @media (min-width: 720px) {
+      .page {
+        padding: 22px;
+      }
+
+      .hero {
+        padding-bottom: 28px;
+      }
+
+      .avatar {
+        width: 92px;
+        height: 92px;
+        margin-top: -52px;
+      }
+
+      .masonry {
+        column-count: 3;
+        column-gap: 16px;
+      }
+
+      .game-card {
+        margin-bottom: 16px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .masonry {
+        column-count: 4;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="container">
+      <section class="main-card">
+        <a id="bannerLink" class="banner-link" href="#" target="_blank" rel="noopener">
+          <img class="banner" src="images/banner.jpg" alt="遊戲福利中心 Banner" />
+        </a>
+
+        <div class="hero">
+          <img class="avatar" src="images/avatar.png" alt="網站頭像" />
+
+          <h1 id="siteTitle">遊戲福利中心</h1>
+
+          <p id="subtitle" class="subtitle">
+            提供多款熱門遊戲福利活動入口，立即領取最新活動與福利。
+          </p>
+
+          <a id="mainButton" class="cta" href="#" target="_blank" rel="noopener">
+            🎁 立即領取福利
+          </a>
+
+          <div class="info-row">
+            <span class="info-pill">官方福利入口</span>
+            <span id="countPill" class="info-pill">支援多款遊戲</span>
+            <span class="info-pill">持續更新中</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-title">
+        <h2>🔥 熱門遊戲福利</h2>
+        <span>點擊圖片即可前往領取</span>
+      </div>
+
+      <section id="gameList" class="masonry"></section>
+
+      <footer class="footer">
+        <span id="footerText">目前支援多款熱門遊戲，持續更新中。</span>
+        <small>© 遊戲福利中心</small>
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    /*
+      =========================
+      你只需要改這一區
+      =========================
+    */
+
+    const CONFIG = {
+      siteTitle: "遊戲福利中心",
+      subtitle: "提供多款熱門遊戲福利活動入口，立即領取最新活動與福利。",
+
+      // 這裡改成你的官方 LINE 連結
+      lineUrl: "https://line-router-admin.vercel.app/api/r/bbbb",
+
+      buttonText: "🎁 立即領取福利"
+    };
+
+    /*
+      圖片放法：
+
+      index.html
+      images/
+        background.jpg
+        banner.jpg
+        avatar.png
+        game1.jpg
+        game2.jpg
+        game3.jpg
+        ...
+
+      遊戲圖片比例不用一樣，網站會保持原比例，不裁切。
+    */
+
+    const GAMES = [
+      { name: "ROBLOX", image: "images/game1.jpg" },
+      { name: "心動小鎮", image: "images/game2.jpg" },
+      { name: "特戰英豪", image: "images/game3.jpg" },
+      { name: "荒野亂鬥", image: "images/game4.jpg" },
+      { name: "傳說對決", image: "images/game5.jpg" },
+      { name: "全明星街球派對", image: "images/game6.jpg" },
+      { name: "戀與深空", image: "images/game7.jpg" },
+      { name: "貓咪大戰爭", image: "images/game8.jpg" },
+      { name: "鳴潮", image: "images/game9.jpg" },
+      { name: "三角洲行動", image: "images/game10.jpg" }
+    ];
+
+    /*
+      =========================
+      下面不要改
+      =========================
+    */
+
+    document.title = CONFIG.siteTitle;
+    document.getElementById("siteTitle").textContent = CONFIG.siteTitle;
+    document.getElementById("subtitle").textContent = CONFIG.subtitle;
+
+    const mainButton = document.getElementById("mainButton");
+    mainButton.href = CONFIG.lineUrl;
+    mainButton.textContent = CONFIG.buttonText;
+
+    document.getElementById("bannerLink").href = CONFIG.lineUrl;
+
+    const gameList = document.getElementById("gameList");
+
+    GAMES.forEach((game) => {
+      const card = document.createElement("a");
+      card.className = "game-card";
+      card.href = CONFIG.lineUrl;
+      card.target = "_blank";
+      card.rel = "noopener";
+
+      card.innerHTML = `
+        <img src="${game.image}" alt="${game.name}" loading="lazy">
+        <div class="game-name">${game.name}</div>
+      `;
+
+      gameList.appendChild(card);
+    });
+
+    document.getElementById("countPill").textContent = `支援 ${GAMES.length}+ 款遊戲`;
+    document.getElementById("footerText").textContent =
+      `目前支援 ${GAMES.length} 款熱門遊戲，持續更新中。`;
+  </script>
+</body>
+</html>
